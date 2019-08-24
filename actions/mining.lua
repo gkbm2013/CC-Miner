@@ -37,6 +37,10 @@ function saveWorkingPos()
     saveStage()
 end
 
+function backToWork()
+    goTo(STATUS.x, STATUS.y, STATUS.z, STATUS.f, true)
+end
+
 function equipTorch(try)
     return equipItem(try, 16, "minecraft:torch")
 end
@@ -50,7 +54,7 @@ function checkFuel(remain, try)
         result = equipFuel((STATUS.x + STATUS.y + STATUS.z) + (remain * 2), try)
         if result == true then
             gui.printfo("back to work")
-            goTo(STATUS.x, STATUS.y, STATUS.z, STATUS.f)
+            backToWork()
             gui.printfo("")
         else
             gui.printfo("")
@@ -70,7 +74,7 @@ function checkTorch()
         local result = equipTorch()
         if result == true then
             gui.printfo("back to work")
-            goTo(STATUS.x, STATUS.y, STATUS.z, STATUS.f)
+            backToWork()
             gui.printfo("")
         else
             gui.printfo("")
@@ -82,6 +86,23 @@ function checkTorch()
     end
 end
 
+function unLoadItem()
+    gui.printfo("go home for unloading item")
+    saveWorkingPos()
+    goHome()
+    for i=1,15 do
+        turtle.select(i)
+        turtle.dropUp()
+    end
+    turtle.select(1)
+    gui.printfo("try to load torch")
+    equipTorch(2)
+    gui.printfo("try to refuel")
+    equipFuel((STATUS.x + STATUS.y + STATUS.z) + (1280), 2)
+    gui.printfo("back to work")
+    backToWork()
+    gui.printfo("")
+end
 
 if fs.exists(MINING_RECORD_FILE) == false then
     saveStage()
@@ -108,5 +129,14 @@ loadStage()
 -- checkFuel()
 -- gui.printb(turtle.getFuelLevel())
 
-checkFuel(80, 1)
-gui.printb("GO!")
+-- print(checkItemSpace())
+
+cb = function(flag, msg)
+    if string.find(msg, "no item space") then
+        unLoadItem()
+    end
+end
+
+goHome()
+d333(cb)
+goHome()
