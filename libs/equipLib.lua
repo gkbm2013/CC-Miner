@@ -69,11 +69,27 @@ end
 
 function doDigAction(name)
     local _name = name
+    
+    local __inspect = turtle.inspect
+    if name == "digs" or name == "dig" then
+        __inspect = turtle.inspect
+    elseif name == "digUps" or name == "digUp" then
+        __inspect = turtle.inspectUp
+    elseif name == "digDowns" or name == "digDown" then
+        __inspect = turtle.inspectDown
+    end
+
     local retry = 2
     return function()
         local ctn = 0
         local flag = false
         local msg = ""
+        
+        f, m = __inspect()
+        if f == false then
+            return true, nil
+        end
+
         repeat
             ctn = ctn + 1
             if hasItemSpace(_name) then

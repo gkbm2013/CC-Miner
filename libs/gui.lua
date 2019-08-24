@@ -131,6 +131,10 @@ function gui.printfo(str)
     gui.printFooter(str)
 end
 
+function gui.printpl(str)
+    gui.printPreserveLine(str)
+end
+
 function gui.repeats(s, n) return n > 0 and s .. gui.repeats(s, n-1) or "" end
 
 function gui.waitCondition(func, foMsg, plMsg)

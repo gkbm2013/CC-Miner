@@ -134,9 +134,18 @@ loadStage()
 cb = function(flag, msg)
     if string.find(msg, "no item space") then
         unLoadItem()
+    elseif string.find(msg, "Unbreakable") then
+        saveWorkingPos()
+        goHome()
+        error(string.format("encountered an unbreakable block at x: %d, y: %d, z: %d.  Hold Ctrl + R to restart the program.", STATUS.x, STATUS.y, STATUS.z))
+    else
+        saveWorkingPos()
+        goHome()
+        error(string.format("some error occured at x: %d, y: %d, z: %d. %s. Hold Ctrl + R to restart the program.", STATUS.x, STATUS.y, STATUS.z, msg))
     end
 end
 
-goHome()
-d333(cb)
-goHome()
+-- goHome()
+if STATUS.stage == "vTunnle" then
+    require("/mining/vTunnle")
+end

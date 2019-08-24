@@ -53,6 +53,30 @@ function toYzero()
     end
 end
 
+function faceN()
+    while pos.getFacing() ~= 'N' do
+        turtle.turnRight()
+    end
+end
+
+function faceW()
+    while pos.getFacing() ~= 'W' do
+        turtle.turnRight()
+    end
+end
+
+function faceE()
+    while pos.getFacing() ~= 'E' do
+        turtle.turnRight()
+    end
+end
+
+function faceS()
+    while pos.getFacing() ~= 'S' do
+        turtle.turnRight()
+    end
+end
+
 function goHome()
     toZzero()
     toXzero()
