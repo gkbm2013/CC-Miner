@@ -3,7 +3,7 @@ gui.clear()
 
 MINING_RECORD_FILE = "/.tmp/mining"
 STATUS = {
-    stage = "vTunnle",
+    stage = "vTunnel",
     x = 0, y = 0, z = 0, f = 0
 }
 
@@ -146,6 +146,11 @@ cb = function(flag, msg)
 end
 
 -- goHome()
-if STATUS.stage == "vTunnle" then
-    require("/mining/vTunnle")
+if STATUS.stage == "vTunnel" then
+    require("/mining/vTunnel")
+    setStage('hTunnel')
+end
+
+if STATUS.stage == "hTunnel" then
+    require("/mining/hTunnel")
 end

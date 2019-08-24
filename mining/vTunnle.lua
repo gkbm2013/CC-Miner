@@ -1,10 +1,10 @@
-setStage("vTunnle")
+setStage("vTunnel")
 
 final = config.toDigdown
 
 function showPercent()
     local p = (final - (pos.getY() * -1)) / final * 100
-    gui.printpl(string.format("Stage : vTunnle. (%d)", 100-(math.floor(p*100)/100) ).."%")
+    gui.printpl(string.format("Stage : vTunnel. (%d)", 100-(math.floor(p*100)/100) ).."%")
 end
 
 local _ctn = 0
@@ -17,7 +17,7 @@ while pos.getY() < 0 do
 end
 faceN()
 
-gui.printb("Digging the vertical tunnle.")
+gui.printb("Digging the vertical tunnel.")
 
 while final - (pos.getY() * -1) >= 3 do
     showPercent()

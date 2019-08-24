@@ -40,7 +40,7 @@ else
 end
 
 repeat
-    gui.printb("Enter the length of the tunnle : ")
+    gui.printb("Enter the length of the tunnel : ")
     miningLength = tonumber(read())
 until(miningLength ~= nil)
 
