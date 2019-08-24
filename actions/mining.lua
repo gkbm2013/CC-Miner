@@ -104,8 +104,25 @@ function unLoadItem()
     gui.printfo("")
 end
 
+function placeTorch()
+    checkTorch()
+    turtle.select(16)
+    local flag = turtle.placeDown()
+    turtle.select(1)
+    return flag
+end
+
 if fs.exists(MINING_RECORD_FILE) == false then
     saveStage()
+end
+
+function setSubstage(str)
+    STATUS.substage = str
+    saveStage()
+end
+
+function getSubstage()
+    return STATUS.substage
 end
 
 loadStage()
@@ -148,6 +165,8 @@ end
 -- goHome()
 if STATUS.stage == "vTunnel" then
     require("/mining/vTunnel")
+    saveWorkingPos()
+    setSubstage(nil)
     setStage('hTunnel')
 end
 
