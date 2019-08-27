@@ -149,18 +149,8 @@ function getLocationString()
     return string.format("x:%d, y:%d, z:%d", pos.getX(), pos.getY(), pos.getZ())
 end
 
-function goTo(x, y, z, f, force)
+function goToX(x, force)
     force = force or true
-    while pos.getY() ~= y do
-        if y - pos.getY() > 0 then
-            local temp = force and turtle.digUp() or false
-            turtle.up()
-        else
-            local temp = force and turtle.digDown() or false
-            actionA = turtle.down()
-        end
-    end
-
     while pos.getX() ~= x do
         if x - pos.getX() > 0 then
             while pos.getFacing() ~= 'N' do
@@ -174,23 +164,49 @@ function goTo(x, y, z, f, force)
         local temp = force and turtle.dig() or false
         turtle.forward()
     end
+end
 
-    local df = 0
+function goToY(y, force)
+    force = force or true
+    while pos.getY() ~= y do
+        if y - pos.getY() > 0 then
+            local temp = force and turtle.digUp() or false
+            turtle.up()
+        else
+            local temp = force and turtle.digDown() or false
+            actionA = turtle.down()
+        end
+    end
+end
 
+function goToZ(z, force)
+    force = force or true
     while pos.getZ() ~= z do
         if z - pos.getZ() > 0 then
             while pos.getFacing() ~= 'E' do
                 turtle.turnRight()
             end
-            df = 1
         elseif z - pos.getZ() < 0 then
             while pos.getFacing() ~= 'W' do
                 turtle.turnRight()
             end
-            df = 3
         end
         local temp = force and turtle.dig() or false
         turtle.forward()
+    end
+end
+
+function goTo(x, y, z, f, force)
+    force = force or true
+    goToY(y, force)
+    goToX(x, force)
+    goToZ(z, force)
+
+    local df = 0
+    if z - pos.getZ() > 0 then
+        df = 1
+    elseif z - pos.getZ() < 0 then
+        df = 3
     end
 
     f = f or df

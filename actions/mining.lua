@@ -172,4 +172,27 @@ end
 
 if STATUS.stage == "hTunnel" then
     require("/mining/hTunnel")
+    unLoadItem()
+    setSubstage(nil)
+    setStage('miningTunnel')
+end
+
+require("/mining/miningTunnel")
+
+if STATUS.stage == "miningTunnel" then
+    while getSubstage() == nil or STATUS.stage ~= "done" do
+        os.queueEvent("randomEvent")
+        os.pullEvent()
+        wrapper()
+        goHome()
+        saveWorkingPos()
+        setSubstage('middleE')
+        gui.printb("Go to next mining tunnel.")
+    end
+end
+
+if STATUS.stage == "done" then
+    goHome()
+    unLoadItem()
+    gui.printb("MINING FINISHED!", colors.green)
 end

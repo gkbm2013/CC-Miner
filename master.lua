@@ -26,7 +26,7 @@ function quitProgram()
     re_conf = true
 end
 
-local WAIT = 0
+local WAIT = 10
 
 parallel.waitForAny(quitProgram, function()
     for i=WAIT,0,-1 do
@@ -39,6 +39,7 @@ gui.printfo("")
 
 if re_conf then
     shell.run("rm /.tmp/config")
+    shell.run("rm /.tmp/mining")
     shell.run("/master")
     return
 end
