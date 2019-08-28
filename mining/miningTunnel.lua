@@ -40,7 +40,7 @@ function wrapper()
         fetchMetadata()
     end
     
-    local currentMiddleLine = METADATA.xMiddleLines[0] or METADATA.xMiddleLines[1]
+    local currentMiddleLine = METADATA.remaining[0] or METADATA.remaining[1]
     
     _goHome = deepcopy(goHome)
     _goTo = deepcopy(goTo)
@@ -88,15 +88,22 @@ function wrapper()
     workingYPos = config.miningY - config.groundY
     gui.printb("Current : Mining Tunnel "..currentMiddleLine)
     
-    if getSubstage() == nil then
-        goTo(currentMiddleLine, workingYPos + 1, 0, 1)
+    if getSubstage() ~= SUBSTAGE.gn and getSubstage() ~= SUBSTAGE.done then
+        if pos.getY() ~= workingYPos + 1 then
+            goToY(workingYPos + 1)
+            saveWorkingPos()
+        end
+    end
+
+    if getSubstage() == nil or getSubstage() == "NAN" then
+        _goTo(currentMiddleLine, workingYPos + 1, 0, 1)
         setSubstage(SUBSTAGE.me)
         saveWorkingPos()
     end
     
     if getSubstage() == SUBSTAGE.me then
-        faceE()
         backToWork()
+        faceE()
         while pos.getZ() - config.miningLength < 0 do
             checkFuel(pos.getZ() - config.miningLength * -1)
             df3(cb)
@@ -112,7 +119,7 @@ function wrapper()
     if getSubstage() == SUBSTAGE.mw then
         if pos.getZ() > 0 then
             checkFuel()
-            goTo(currentMiddleLine, workingYPos + 1, 0, 3)
+            _goTo(currentMiddleLine, workingYPos + 1, 0, 3)
             saveWorkingPos()
         end
         backToWork()
@@ -133,7 +140,7 @@ function wrapper()
         backToWork()
         if pos.getF() ~= 1 or pos.getX() ~= currentMiddleLine+1 then
             checkFuel()
-            goTo(currentMiddleLine+1, workingYPos + 1, -1*config.miningLength, 1)
+            _goTo(currentMiddleLine+1, workingYPos + 1, -1*config.miningLength, 1)
         end
         saveWorkingPos()
         faceE()
@@ -149,6 +156,7 @@ function wrapper()
     
     if getSubstage() == SUBSTAGE.ne2 then
         backToWork()
+        faceE()
         while pos.getZ() - config.miningLength < 0 do
             checkFuel(config.miningLength - pos.getZ())
             df3(cb)
@@ -161,7 +169,7 @@ function wrapper()
         backToWork()
         if pos.getF() ~= 3 or pos.getX() ~= currentMiddleLine-1 then
             checkFuel()
-            goTo(currentMiddleLine-1, workingYPos + 1, config.miningLength, 3)
+            _goTo(currentMiddleLine-1, workingYPos + 1, config.miningLength, 3)
         end
         saveWorkingPos()
         faceW()

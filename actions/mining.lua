@@ -35,6 +35,7 @@ function saveWorkingPos()
     STATUS.z = pos.getZ()
     STATUS.f = pos.getF()
     saveStage()
+    sleep(0.05)
 end
 
 function backToWork()
@@ -181,12 +182,11 @@ require("/mining/miningTunnel")
 
 if STATUS.stage == "miningTunnel" then
     while getSubstage() == nil or STATUS.stage ~= "done" do
-        os.queueEvent("randomEvent")
-        os.pullEvent()
         wrapper()
         goHome()
         saveWorkingPos()
-        setSubstage('middleE')
+        unLoadItem()
+        setSubstage('NAN')
         gui.printb("Go to next mining tunnel.")
     end
 end
