@@ -26,7 +26,7 @@ function quitProgram()
     re_conf = true
 end
 
-local WAIT = 0
+local WAIT = 30
 
 parallel.waitForAny(quitProgram, function()
     for i=WAIT,0,-1 do

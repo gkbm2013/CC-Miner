@@ -49,6 +49,7 @@ end
 
 function checkFuel(remain, try)
     remain = remain or 1280
+    gui.printpl(string.format("Fuel Level : %d", turtle.getFuelLevel()))
     if turtle.getFuelLevel() <= pos.getX() + pos.getY() + pos.getZ() + (remain * 2) then
         gui.printfo("go home for refuel")
         saveWorkingPos()
