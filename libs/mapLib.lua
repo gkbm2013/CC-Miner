@@ -83,38 +83,63 @@ function goHome()
     toYzero()
 end
 
-function equipItem(try, slot, name)
+function equipItem(try, slot, name, side, ctn)
     try = try or 64
+    try = try + 1
+    side = side or "front"
     goHome()
+    
+    if side == "front" then
+        -- PASS
+    elseif side == "left" then
+        turtle.turnLeft()
+    elseif side == "right" then
+        turtle.turnRight()
+    end
 
     while try > 0 do
         detail = turtle.getItemDetail(slot)
+        if (detail ~= nil and detail.name == name) and turtle.getItemSpace(slot) == 0 then
+            faceN()
+            gui.printpl("")
+            return true
+        end
+
         if (detail ~= nil and detail.name ~= name) then
             turtle.select(slot)
             turtle.dropUp()
-            turtle.select(1)
-        elseif turtle.getItemSpace(slot) == 0 then
-            turtle.select(1)
-            turtle.dropUp()
-            return true
         end
         
         turtle.select(1)
         detail = turtle.getItemDetail(1)
-        if (detail ~= nil and detail.name ~= name) then
+        if detail ~= nil and detail.name == name then
+            if ctn ~= nil then
+                turtle.transferTo(slot, ctn)
+            else
+                turtle.transferTo(slot)
+            end
             turtle.dropUp()
         else
-            ctn = turtle.getItemSpace(slot)
-            turtle.transferTo(slot, ctn)
             turtle.dropUp()
         end
+
         turtle.suck()
+        if ctn ~= nil then
+            turtle.transferTo(slot, ctn)
+        else
+            turtle.transferTo(slot)
+        end
+        turtle.dropUp()
+
+        gui.printpl("trying... "..try)
         try = try -1
     end
 
     turtle.select(1)
     turtle.dropUp()
 
+    faceN()
+    gui.printpl("")
     detail = turtle.getItemDetail(slot)
     if (detail ~= nil and detail.name == name) and turtle.getItemSpace(slot) == 0 then
         return true
@@ -123,9 +148,18 @@ function equipItem(try, slot, name)
     end
 end 
 
-function equipFuel(target, try)
+function equipFuel(target, try, side)
     try = try or 4096
+    side = side or "front"
     goHome()
+
+    if side == "front" then
+        -- PASS
+    elseif side == "left" then
+        turtle.turnLeft()
+    elseif side == "right" then
+        turtle.turnRight()
+    end
 
     turtle.select(1)
     turtle.dropUp()
@@ -136,12 +170,17 @@ function equipFuel(target, try)
         if flag == false then
             turtle.dropUp()
         elseif turtle.getFuelLevel() >= target then
+            faceN()
+            gui.printpl("")
             return true
         else
             try = try + 1
         end
+        gui.printpl("trying... "..try)
         try = try -1
     end
+    gui.printpl("")
+    faceN()
     return false
 end
 

@@ -43,7 +43,8 @@ function backToWork()
 end
 
 function equipTorch(try)
-    return equipItem(try, 16, "minecraft:torch")
+
+    return equipItem(try, 16, "minecraft:torch", 'right')
 end
 
 function checkFuel(remain, try)
@@ -52,7 +53,7 @@ function checkFuel(remain, try)
         gui.printfo("go home for refuel")
         saveWorkingPos()
         equipTorch(try)
-        result = equipFuel((STATUS.x + STATUS.y + STATUS.z) + (remain * 2), try)
+        result = equipFuel((STATUS.x + STATUS.y + STATUS.z) + (remain * 2), try, 'left')
         if result == true then
             gui.printfo("back to work")
             backToWork()
@@ -67,12 +68,12 @@ function checkFuel(remain, try)
     end
 end
 
-function checkTorch()
+function checkTorch(try)
     detail = turtle.getItemDetail(16)
     if detail == nil or detail.name ~= "minecraft:torch" or detail.count <= 1 then
         gui.printfo("go home for adding torches")
         saveWorkingPos()
-        local result = equipTorch()
+        local result = equipTorch(try)
         if result == true then
             gui.printfo("back to work")
             backToWork()
@@ -93,13 +94,21 @@ function unLoadItem()
     goHome()
     for i=1,15 do
         turtle.select(i)
-        turtle.dropUp()
+        local detail = turtle.getItemDetail()
+        if detail ~= nil and detail.name == "minecraft:torch" then
+            local flag = turtle.transferTo(16)
+            if flag == false then
+                turtle.dropUp()
+            end
+        else
+            turtle.dropUp()
+        end
     end
     turtle.select(1)
     gui.printfo("try to load torch")
     equipTorch(2)
     gui.printfo("try to refuel")
-    equipFuel((STATUS.x + STATUS.y + STATUS.z) + (1280), 2)
+    equipFuel((STATUS.x + STATUS.y + STATUS.z) + (1280), 2, 'left')
     gui.printfo("back to work")
     backToWork()
     gui.printfo("")
@@ -128,26 +137,12 @@ end
 
 loadStage()
 
--- gui.printb("Checking for torches... [1]")
--- gui.waitCondition(function()
---     flag, data = turtle.inspect()
---     return flag == true and data.name == "minecraft:chest"
--- end, "[STOP] Please put some torch in the chest in front of the turtle.", "Waiting..........")
--- gui.printb("OK", colors.green)
-
--- print(config.toDigdown)
--- goHome()
-
--- goTo(5, 6, 10, true)
-
--- goHome()
-
--- goTo(5, -10, 7)
--- gui.printb(turtle.getFuelLevel())
--- checkFuel()
--- gui.printb(turtle.getFuelLevel())
-
--- print(checkItemSpace())
+gui.printb("Checking for torches...")
+gui.waitCondition(function()
+    local result = equipTorch(1)
+    return result == true
+end, "[STOP] Add some torch to the chest on the right hand side of the turtle.", "Waiting..........")
+gui.printb("OK", colors.green)
 
 cb = function(flag, msg)
     if string.find(msg, "no item space") then
@@ -163,7 +158,6 @@ cb = function(flag, msg)
     end
 end
 
--- goHome()
 if STATUS.stage == "vTunnel" then
     require("/mining/vTunnel")
     saveWorkingPos()
