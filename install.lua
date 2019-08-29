@@ -36,8 +36,10 @@ download("master.lua")
 
 shell.run("label set Miner")
 
+print("")
 print("Done!")
 
+print("")
 flag = true;
 print("Do you want to automatically start the mining program when booting? (Y/n)")
 while true do
