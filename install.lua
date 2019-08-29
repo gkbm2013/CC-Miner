@@ -5,7 +5,7 @@ end
 
 function download(path)
     local baseUrl = "https://raw.githubusercontent.com/gkbm2013/CC-Miner/master/"
-    if fs.exists("path") == false then
+    if fs.exists(path) == true then
         shell.run("rm "..path)
     end
     shell.run(string.format("wget %s %s", baseUrl..path, path))
