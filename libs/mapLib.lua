@@ -150,7 +150,7 @@ end
 
 function equipFuel(target, try, side)
     try = try or 4096
-    side = side or "front"
+    side = side or "left"
     goHome()
 
     if side == "front" then
