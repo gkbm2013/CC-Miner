@@ -1,18 +1,30 @@
 json = require "/libs/json"
 
 if pos.isHome() then
+
+    turtle.turnRight()
     gui.printb("Checking for chest... [1]")
     gui.waitCondition(function()
         flag, data = turtle.inspect()
         return flag == true and data.name == "minecraft:chest"
-    end, "[STOP] place a chest in front of the turtle to continue.", "Waiting..........")
+    end, "[STOP] Put a chest on the front of the turtle.", "Waiting..........")
+    turtle.turnLeft()
+    gui.printb("OK", colors.green)
+
+    turtle.turnLeft()
+    gui.printb("Checking for chest... [2]")
+    gui.waitCondition(function()
+        flag, data = turtle.inspect()
+        return flag == true and data.name == "minecraft:chest"
+    end, "[STOP] Put a chest on the front of the turtle.", "Waiting..........")
+    turtle.turnRight()
     gui.printb("OK", colors.green)
  
-    gui.printb("Checking for chest... [2]")
+    gui.printb("Checking for chest... [3]")
     gui.waitCondition(function()
         flag, data = turtle.inspectUp()
         return flag == true and data.name == "minecraft:chest"
-    end, "[STOP] place a chest on top of the turtle to continue.", "Waiting..........")
+    end, "[STOP] Put a chest on top of the turtle to continue.", "Waiting..........")
     gui.printb("OK", colors.green)
 end
 
