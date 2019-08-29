@@ -7,7 +7,7 @@ if pos.isHome() then
     gui.waitCondition(function()
         flag, data = turtle.inspect()
         return flag == true and data.name == "minecraft:chest"
-    end, "[STOP] Put a chest on the front of the turtle.", "Waiting..........")
+    end, "[STOP] Put a chest in front of the turtle.", "Waiting..........")
     turtle.turnLeft()
     gui.printb("OK", colors.green)
 
@@ -16,7 +16,7 @@ if pos.isHome() then
     gui.waitCondition(function()
         flag, data = turtle.inspect()
         return flag == true and data.name == "minecraft:chest"
-    end, "[STOP] Put a chest on the front of the turtle.", "Waiting..........")
+    end, "[STOP] Put a chest in front of the turtle.", "Waiting..........")
     turtle.turnRight()
     gui.printb("OK", colors.green)
  
