@@ -40,6 +40,14 @@ function wrapper()
         fetchMetadata()
     end
     
+    if next(METADATA.remaining) == nil then
+        setSubstage(SUBSTAGE.done)
+        setStage('done')
+        return
+    else
+        setStage('miningTunnel')
+    end
+
     local currentMiddleLine = METADATA.remaining[0] or METADATA.remaining[1]
     
     _goHome = deepcopy(goHome)
@@ -72,17 +80,6 @@ function wrapper()
         while pos.getF() ~= f do
             turtle.turnRight()
         end
-    end
-    
-    local _ctn = 0
-    for k, v in pairs(METADATA.remaining) do
-      _ctn = _ctn + 1
-    end
-    if _ctn == 0 then
-        setSubstage(SUBSTAGE.done)
-        setStage('done')
-    else
-        setStage('miningTunnel')
     end
     
     workingYPos = config.miningY - config.groundY
@@ -207,9 +204,6 @@ function wrapper()
     end
     METADATA.remaining = _temp
     saveMetadata()
-    
-    gui.printb("Cooldown...")
-    sleep(5)
     
     gui.printb("")
     

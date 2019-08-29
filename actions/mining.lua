@@ -186,6 +186,8 @@ if STATUS.stage == "miningTunnel" then
         goHome()
         saveWorkingPos()
         unLoadItem()
+        gui.printb("Cooldown...")
+        sleep(3)
         setSubstage('NAN')
         gui.printb("Go to next mining tunnel.")
     end
