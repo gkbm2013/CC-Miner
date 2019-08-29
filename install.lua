@@ -34,6 +34,8 @@ download("/mining/vTunnel.lua")
 
 download("master.lua")
 
+shell.run("label set Miner")
+
 print("Done!")
 
 flag = true;
