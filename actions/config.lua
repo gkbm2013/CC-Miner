@@ -91,6 +91,6 @@ h.close()
 
 gui.clear()
 gui.printb("The turtle is ready for mining. Before mining, please add some fuel to the chest on the left hand side of the turtle.")
-gui.printb("Also, add some torches to the chect on the left hand side of the turtle.")
+gui.printb("Also, add some torches to the chect on the right hand side of the turtle.")
 gui.printb("Press any key to start...", colors.yellow)
 os.pullEvent("key")
